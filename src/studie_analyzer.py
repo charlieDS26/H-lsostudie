@@ -1,5 +1,8 @@
 import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import r2_score, mean_squared_error
 
 class HealthAnalyzer:
     def __init__(self, data):
@@ -28,3 +31,54 @@ class HealthAnalyzer:
         plt.ylabel("Antal människor")
         plt.title("Blodtrycks fördelning")
         plt.show()
+
+    def linear_regression(self):
+        
+        x = self.data[["age"]]
+
+        y = self.data["systolic_bp"]
+
+        model = LinearRegression()
+        model.fit(x, y)
+
+        return model
+
+    def plot_regression(self):
+        import matplotlib.pyplot as plt
+
+        x = self.data[["age"]]
+        y = self.data["systolic_bp"]
+
+        model = self.linear_regression()
+
+        predictions = model.predict(x)
+
+        plt.figure(figsize=(8, 5))
+
+        plt.scatter(x, y, alpha=0.5,
+                    label="Observerat blodtryck")
+
+        plt.plot(x, predictions,
+                 color="red",
+                 label="Regressionslinje")
+
+        plt.xlabel("Ålder (år)")
+        plt.ylabel("Systoliskt blodtryck (mmHg)")
+        plt.title("Linjär regression: Ålder och blodtryck")
+
+        plt.legend()
+        plt.show()
+
+    def regression_results(self):
+        x = self.data[["age"]]
+        y = self.data["systolic_bp"]
+
+        model = self.linear_regression()
+        predictions = model.predict(x)
+
+        return {
+            "Lutning": model.coef_[0],
+            "Intercept": model.intercept_,
+            "R2": r2_score(y, predictions),
+            "MSE": mean_squared_error(y, predictions)
+        }
