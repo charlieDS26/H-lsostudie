@@ -15,8 +15,8 @@ class HealthAnalyzer:
         ]
 
         return self.data[columns].agg(
-            ["mean", "median," "min," "max"]
-        )
+        ["mean", "median", "min", "max"]
+    )
 
     def plot_bp(self):
         plt.figure(figsize=(6,4))
