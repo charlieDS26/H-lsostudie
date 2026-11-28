@@ -7,8 +7,12 @@ from sklearn.metrics import r2_score, mean_squared_error
 class HealthAnalyzer:
     def __init__(self, data):
         self.data = data
+    """
+    Skapar en HealthAnalyzer med ett dataset.
+    """
 
-    def descriptive_statistics(self):
+    def descriptive_statistics(self): # Beräknar beskrivande statistik.
+    
         columns = [
             "age",
             "weight",
@@ -22,6 +26,10 @@ class HealthAnalyzer:
     )
 
     def plot_bp(self):
+
+        """
+        Skapar ett histogram över systoliskt blodtryck.
+        """
         plt.figure(figsize=(6,4))
         plt.hist(
             self.data["systolic_bp"],
@@ -33,7 +41,10 @@ class HealthAnalyzer:
         plt.show()
 
     def linear_regression(self):
-        
+        """
+        Utför linjär regression för att förutsäga
+        systoliskt blodtryck utifrån ålder.
+        """
         x = self.data[["age"]]
 
         y = self.data["systolic_bp"]
@@ -44,6 +55,10 @@ class HealthAnalyzer:
         return model
 
     def plot_regression(self):
+        """
+        Visar sambandet mellan ålder och blodtryck
+        tillsammans med regressionslinjen.
+        """
         import matplotlib.pyplot as plt
 
         x = self.data[["age"]]
@@ -70,6 +85,9 @@ class HealthAnalyzer:
         plt.show()
 
     def regression_results(self):
+        """
+        Beräknar modellens lutning, intercept, och R2 värde.
+        """
         x = self.data[["age"]]
         y = self.data["systolic_bp"]
 
@@ -80,5 +98,4 @@ class HealthAnalyzer:
             "Lutning": model.coef_[0],
             "Intercept": model.intercept_,
             "R2": r2_score(y, predictions),
-            "MSE": mean_squared_error(y, predictions)
         }
